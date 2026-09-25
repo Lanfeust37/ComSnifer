@@ -1,6 +1,5 @@
 using System.IO.Ports;
 using System.Text;
-using ComSnifer;
 
 namespace ComSnifer.Gui;
 

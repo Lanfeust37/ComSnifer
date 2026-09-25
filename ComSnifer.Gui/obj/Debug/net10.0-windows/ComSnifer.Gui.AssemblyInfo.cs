@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ComSnifer.Gui")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a8dcd624cc1a8b57ff6eb1dbd998c48bc10faa68")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f7d3bc517856020dd62572f29e2af6c1c7c09da7")]
 [assembly: System.Reflection.AssemblyProductAttribute("ComSnifer.Gui")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ComSnifer.Gui")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
