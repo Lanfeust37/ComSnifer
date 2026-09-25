@@ -191,7 +191,7 @@ namespace ComSnifer.Gui
             this.btnRefreshPorts.Text = "↻";
             this.toolTip.SetToolTip(this.btnRefreshPorts, "Rafraîchir la liste des ports série");
             this.btnRefreshPorts.UseVisualStyleBackColor = true;
-            this.btnRefreshPorts.Click += new System.EventHandler(this.btnRefreshPorts_Click);
+            this.btnRefreshPorts.Click += new System.EventHandler(this.BtnRefreshPorts_Click);
             //
             // lblApp
             //
@@ -373,7 +373,7 @@ namespace ComSnifer.Gui
             this.btnStart.TabIndex = 10;
             this.btnStart.Text = "▶ Démarrer";
             this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            this.btnStart.Click += new System.EventHandler(this.BtnStart_Click);
             //
             // btnStop
             //
@@ -386,7 +386,7 @@ namespace ComSnifer.Gui
             this.btnStop.TabIndex = 11;
             this.btnStop.Text = "■ Arrêter";
             this.btnStop.UseVisualStyleBackColor = true;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            this.btnStop.Click += new System.EventHandler(this.BtnStop_Click);
             //
             // split
             //
@@ -447,21 +447,21 @@ namespace ComSnifer.Gui
             this.miDevCopy.Name = "miDevCopy";
             this.miDevCopy.Size = new System.Drawing.Size(169, 22);
             this.miDevCopy.Text = "Copier";
-            this.miDevCopy.Click += new System.EventHandler(this.miDevCopy_Click);
+            this.miDevCopy.Click += new System.EventHandler(this.MiDevCopy_Click);
             //
             // miDevSelectAll
             //
             this.miDevSelectAll.Name = "miDevSelectAll";
             this.miDevSelectAll.Size = new System.Drawing.Size(169, 22);
             this.miDevSelectAll.Text = "Tout sélectionner";
-            this.miDevSelectAll.Click += new System.EventHandler(this.miDevSelectAll_Click);
+            this.miDevSelectAll.Click += new System.EventHandler(this.MiDevSelectAll_Click);
             //
             // miDevClear
             //
             this.miDevClear.Name = "miDevClear";
             this.miDevClear.Size = new System.Drawing.Size(169, 22);
             this.miDevClear.Text = "Effacer";
-            this.miDevClear.Click += new System.EventHandler(this.miDevClear_Click);
+            this.miDevClear.Click += new System.EventHandler(this.MiDevClear_Click);
             //
             // gbApp
             //
@@ -503,21 +503,21 @@ namespace ComSnifer.Gui
             this.miAppCopy.Name = "miAppCopy";
             this.miAppCopy.Size = new System.Drawing.Size(169, 22);
             this.miAppCopy.Text = "Copier";
-            this.miAppCopy.Click += new System.EventHandler(this.miAppCopy_Click);
+            this.miAppCopy.Click += new System.EventHandler(this.MiAppCopy_Click);
             //
             // miAppSelectAll
             //
             this.miAppSelectAll.Name = "miAppSelectAll";
             this.miAppSelectAll.Size = new System.Drawing.Size(169, 22);
             this.miAppSelectAll.Text = "Tout sélectionner";
-            this.miAppSelectAll.Click += new System.EventHandler(this.miAppSelectAll_Click);
+            this.miAppSelectAll.Click += new System.EventHandler(this.MiAppSelectAll_Click);
             //
             // miAppClear
             //
             this.miAppClear.Name = "miAppClear";
             this.miAppClear.Size = new System.Drawing.Size(169, 22);
             this.miAppClear.Text = "Effacer";
-            this.miAppClear.Click += new System.EventHandler(this.miAppClear_Click);
+            this.miAppClear.Click += new System.EventHandler(this.MiAppClear_Click);
             //
             // flpOptions
             //
@@ -593,7 +593,7 @@ namespace ComSnifer.Gui
             this.btnClear.TabIndex = 4;
             this.btnClear.Text = "Effacer";
             this.btnClear.UseVisualStyleBackColor = true;
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            this.btnClear.Click += new System.EventHandler(this.BtnClear_Click);
             //
             // flpFiles
             //
@@ -641,7 +641,7 @@ namespace ComSnifer.Gui
             this.btnLogBrowse.TabIndex = 2;
             this.btnLogBrowse.Text = "…";
             this.btnLogBrowse.UseVisualStyleBackColor = true;
-            this.btnLogBrowse.Click += new System.EventHandler(this.btnLogBrowse_Click);
+            this.btnLogBrowse.Click += new System.EventHandler(this.BtnLogBrowse_Click);
             //
             // lblTeeIn
             //
@@ -669,7 +669,7 @@ namespace ComSnifer.Gui
             this.btnTeeInBrowse.TabIndex = 5;
             this.btnTeeInBrowse.Text = "…";
             this.btnTeeInBrowse.UseVisualStyleBackColor = true;
-            this.btnTeeInBrowse.Click += new System.EventHandler(this.btnTeeInBrowse_Click);
+            this.btnTeeInBrowse.Click += new System.EventHandler(this.BtnTeeInBrowse_Click);
             //
             // lblTeeOut
             //
@@ -697,7 +697,7 @@ namespace ComSnifer.Gui
             this.btnTeeOutBrowse.TabIndex = 8;
             this.btnTeeOutBrowse.Text = "…";
             this.btnTeeOutBrowse.UseVisualStyleBackColor = true;
-            this.btnTeeOutBrowse.Click += new System.EventHandler(this.btnTeeOutBrowse_Click);
+            this.btnTeeOutBrowse.Click += new System.EventHandler(this.BtnTeeOutBrowse_Click);
             //
             // statusStrip
             //
@@ -740,7 +740,7 @@ namespace ComSnifer.Gui
             // uiTimer
             //
             this.uiTimer.Interval = 250;
-            this.uiTimer.Tick += new System.EventHandler(this.uiTimer_Tick);
+            this.uiTimer.Tick += new System.EventHandler(this.UiTimer_Tick);
             //
             // MainForm
             //

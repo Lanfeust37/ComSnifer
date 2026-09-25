@@ -14,15 +14,11 @@ public partial class MainForm : Form
 {
     private const int MaxTextChars = 500_000;
 
-    private SnifferEngine? _engine;
-    private CancellationTokenSource? _cts;
-    private bool _running;
-    private string? _lastError;
+    private readonly SnifferSession _session = new();
 
-    private readonly object _pendingLock = new();
+    private readonly Lock _pendingLock = new();
     private readonly StringBuilder _pendingDev = new();
     private readonly StringBuilder _pendingApp = new();
-    private long _bytesDev, _bytesApp;
     private long _prevDev, _prevApp;
     private long _tickPrev;
 
@@ -31,50 +27,64 @@ public partial class MainForm : Form
     public MainForm()
     {
         InitializeComponent();
+        _session.PacketCaptured += OnPacket;
+        _session.StatusChanged += (_, m) => { if (!IsDisposed) SetStatus(m.Text, m.IsError); };
+        _session.RunningChanged += OnSessionRunningChanged;
         LoadSettings();
         RefreshPorts();
     }
 
     // -------------------------------------------------------- evenements UI
 
-    private async void btnStart_Click(object? sender, EventArgs e) => await StartAsync();
-
-    private void btnStop_Click(object? sender, EventArgs e)
+    private async void BtnStart_Click(object? sender, EventArgs e)
     {
-        if (_cts is null) return;
-        SetStatus("Arrêt en cours…", isError: false);
-        _cts.Cancel();
+        SnifferOptions opts;
+        try
+        {
+            opts = BuildOptions();
+            opts.Validate();
+        }
+        catch (Exception ex)
+        {
+            SetStatus(ex.Message, isError: true);
+            return;
+        }
+        SaveSettings();
+        ResetStats();
+        await _session.StartAsync(opts);
     }
 
-    private void btnRefreshPorts_Click(object? sender, EventArgs e) => RefreshPorts();
+    private void BtnStop_Click(object? sender, EventArgs e) => _session.Stop();
 
-    private void btnClear_Click(object? sender, EventArgs e)
+    private void BtnRefreshPorts_Click(object? sender, EventArgs e) => RefreshPorts();
+
+    private void BtnClear_Click(object? sender, EventArgs e)
     {
         rtbDev.Clear();
         rtbApp.Clear();
     }
 
-    private void uiTimer_Tick(object? sender, EventArgs e) => OnUiTick();
+    private void UiTimer_Tick(object? sender, EventArgs e) => OnUiTick();
 
-    private void btnLogBrowse_Click(object? sender, EventArgs e) => BrowseFile(txtLog);
-    private void btnTeeInBrowse_Click(object? sender, EventArgs e) => BrowseFile(txtTeeIn);
-    private void btnTeeOutBrowse_Click(object? sender, EventArgs e) => BrowseFile(txtTeeOut);
+    private void BtnLogBrowse_Click(object? sender, EventArgs e) => BrowseFile(txtLog);
+    private void BtnTeeInBrowse_Click(object? sender, EventArgs e) => BrowseFile(txtTeeIn);
+    private void BtnTeeOutBrowse_Click(object? sender, EventArgs e) => BrowseFile(txtTeeOut);
 
-    private void miDevCopy_Click(object? sender, EventArgs e)
+    private void MiDevCopy_Click(object? sender, EventArgs e)
     {
         if (rtbDev.SelectionLength > 0) rtbDev.Copy();
     }
 
-    private void miDevSelectAll_Click(object? sender, EventArgs e) => rtbDev.SelectAll();
-    private void miDevClear_Click(object? sender, EventArgs e) => rtbDev.Clear();
+    private void MiDevSelectAll_Click(object? sender, EventArgs e) => rtbDev.SelectAll();
+    private void MiDevClear_Click(object? sender, EventArgs e) => rtbDev.Clear();
 
-    private void miAppCopy_Click(object? sender, EventArgs e)
+    private void MiAppCopy_Click(object? sender, EventArgs e)
     {
         if (rtbApp.SelectionLength > 0) rtbApp.Copy();
     }
 
-    private void miAppSelectAll_Click(object? sender, EventArgs e) => rtbApp.SelectAll();
-    private void miAppClear_Click(object? sender, EventArgs e) => rtbApp.Clear();
+    private void MiAppSelectAll_Click(object? sender, EventArgs e) => rtbApp.SelectAll();
+    private void MiAppClear_Click(object? sender, EventArgs e) => rtbApp.Clear();
 
     private static void BrowseFile(TextBox tb)
     {
@@ -98,65 +108,28 @@ public partial class MainForm : Form
     {
         string current = cb.Text;
         cb.Items.Clear();
-        cb.Items.AddRange(ports.Cast<object>().ToArray());
+        cb.Items.AddRange([.. ports]);
         cb.Items.Add(extra);
         cb.Text = current;
     }
 
     // -------------------------------------------------------------- moteur
 
-    private async Task StartAsync()
+    private void OnSessionRunningChanged(object? sender, EventArgs e)
     {
-        SnifferOptions opts;
-        try
+        if (IsDisposed) return;
+        bool running = _session.IsRunning;
+        if (running)
         {
-            opts = BuildOptions();
-            opts.Validate();
+            _tickPrev = Environment.TickCount64;
+            uiTimer.Start();
         }
-        catch (Exception ex)
+        else
         {
-            SetStatus(ex.Message, isError: true);
-            return;
-        }
-
-        _cts = new CancellationTokenSource();
-        _engine = new SnifferEngine(opts) { UseConsole = false };
-        _engine.PacketCaptured += OnPacket;
-        _engine.StatusChanged += (_, m) => SetStatus(m, isError: false);
-        _engine.ErrorOccurred += (_, m) => SetStatus(m, isError: true);
-
-        SaveSettings();
-        ResetStats();
-        _lastError = null;
-        SetRunning(true);
-        SetStatus($"{cmbDevice.Text} ↔ {cmbApp.Text} — démarrage…", isError: false);
-        _tickPrev = Environment.TickCount64;
-        uiTimer.Start();
-
-        int rc = 0;
-        try { rc = await _engine.RunAsync(_cts.Token); }
-        catch (Exception ex)
-        {
-            rc = 2;
-            SetStatus($"Erreur moteur : {ex.Message}", isError: true);
-        }
-        finally
-        {
-            await _engine.DisposeAsync();
-            _engine = null;
-            _cts.Dispose();
-            _cts = null;
             uiTimer.Stop();
-            if (!IsDisposed)
-            {
-                FlushPending();
-                SetRunning(false);
-                string msg = rc == 0 ? "Arrêté."
-                    : _lastError is string err ? $"{err} (code {rc})"
-                    : $"Terminé (code {rc}).";
-                SetStatus(msg, isError: rc != 0);
-            }
+            FlushPending();
         }
+        SetRunning(running);
     }
 
     private SnifferOptions BuildOptions()
@@ -190,8 +163,6 @@ public partial class MainForm : Form
     private void OnPacket(object? sender, SniffEvent ev)
     {
         if (IsDisposed) return;
-        if (ev.FromDevice) _bytesDev += ev.Data.Length;
-        else _bytesApp += ev.Data.Length;
         if (chkPause.Checked) return;
 
         string line = DisplayFormatter.FormatLine(
@@ -208,12 +179,12 @@ public partial class MainForm : Form
         double dt = (now - _tickPrev) / 1000.0;
         if (dt > 0)
         {
-            lblRateDev.Text = $"↓ {DisplayFormatter.FormatRate((_bytesDev - _prevDev) / dt)}";
-            lblRateApp.Text = $"↑ {DisplayFormatter.FormatRate((_bytesApp - _prevApp) / dt)}";
-            _prevDev = _bytesDev; _prevApp = _bytesApp; _tickPrev = now;
+            lblRateDev.Text = $"↓ {DisplayFormatter.FormatRate((_session.TotalIn - _prevDev) / dt)}";
+            lblRateApp.Text = $"↑ {DisplayFormatter.FormatRate((_session.TotalOut - _prevApp) / dt)}";
+            _prevDev = _session.TotalIn; _prevApp = _session.TotalOut; _tickPrev = now;
         }
-        gbDev.Text = $"Device → Host   ({_bytesDev:N0} o)";
-        gbApp.Text = $"Host → Device   ({_bytesApp:N0} o)";
+        gbDev.Text = $"Device → Host   ({_session.TotalIn:N0} o)";
+        gbApp.Text = $"Host → Device   ({_session.TotalOut:N0} o)";
     }
 
     private void FlushPending()
@@ -252,7 +223,6 @@ public partial class MainForm : Form
 
     private void SetRunning(bool running)
     {
-        _running = running;
         rowEndpoints.Enabled = !running;
         foreach (Control c in rowParams.Controls)
             if (c is not Button)
@@ -269,7 +239,6 @@ public partial class MainForm : Form
     private void SetStatus(string message, bool isError)
     {
         if (InvokeRequired) { BeginInvoke(() => SetStatus(message, isError)); return; }
-        if (isError) _lastError = message;
         lblMsg.Text = message;
         lblMsg.ForeColor = isError
             ? (IsDarkMode() ? Color.Salmon : Color.Firebrick)
@@ -279,14 +248,14 @@ public partial class MainForm : Form
 
     private void ResetStats()
     {
-        _bytesDev = _bytesApp = _prevDev = _prevApp = 0;
+        _prevDev = _prevApp = 0;
         lock (_pendingLock) { _pendingDev.Clear(); _pendingApp.Clear(); }
         chkPause.Checked = false;
     }
 
     protected override void OnFormClosing(FormClosingEventArgs e)
     {
-        _cts?.Cancel();               // arret en tache de fond ; le finally nettoie
+        _session.Stop();              // arret en tache de fond ; la session nettoie
         SaveSettings();
         base.OnFormClosing(e);
     }
