@@ -1,4 +1,0 @@
-<Solution>
-  <Project Path="ComSnifer.Tests/ComSnifer.Tests.csproj" />
-  <Project Path="ComSnifer/ComSnifer.csproj" />
-</Solution>
