@@ -8,7 +8,7 @@ Le trafic entre le port de l'application et celui du périphérique réel est re
 
 | Projet | Type | Description |
 |---|---|---|
-| **ComSnifer.Core** | bibliothèque | Moteur `SnifferEngine` (forwarding + événements `PacketCaptured`/`StatusChanged`/`ErrorOccurred`), `SnifferOptions`, endpoints série/TCP, formatage, persistance des réglages (`GuiSettings`). |
+| **ComSnifer.Core** | bibliothèque | Moteur `SnifferEngine` (forwarding + événements `PacketCaptured`/`StatusChanged`/`ErrorOccurred`), orchestrateur `SnifferSession` partagé par la GUI et les hôtes (état, compteurs, messages d'erreur), `SnifferOptions`, endpoints série/TCP, formatage, persistance des réglages (`GuiSettings`). |
 | **ComSnifer** | console | Interface en ligne de commande, compatible slsnif. |
 | **ComSnifer.Gui** | WinForms | GUI : deux panneaux temps réel (Device→Host / Host→Device), hex + ASCII, compteurs de débit, log/tee, thème sombre suivi du système. |
 | **ComSnifer.Tests** | xUnit | Tests du parsing, du formatage et du forwarding TCP end-to-end. |
@@ -24,6 +24,19 @@ Le trafic entre le port de l'application et celui du périphérique réel est re
 | `listen:port`, `listen:ip:port` | écoute TCP (côté application uniquement) |
 
 Une paire virtuelle **com0com** permet d'intercepter une application existante : l'application se connecte à `COM10`, le sniffer sur `COM11` relaye vers le vrai périphérique. Le baudrate n'est pas propagé par la paire — réglez-le avec `-s`.
+
+Le sniffer est un relais (MITM) : il ouvre **les deux** endpoints, qui doivent donc être libres — un port série n'accepte qu'un seul processus à la fois. Pour tester sans matériel réel, deux options :
+
+- une seconde paire com0com côté `device`, avec un terminal série (ou un script) comme faux périphérique :
+
+  ```
+  [Application]--COM10 ↔ COM11--[ComSnifer]--COM20 ↔ COM21--[Faux périphérique]
+                      paire #1                      paire #2
+  ```
+
+- ou un endpoint TCP côté `device` (`-d listen:4001` puis un client TCP — netcat, telnet… — sur `localhost:4001`) : une seule paire com0com suffit.
+
+Une surveillance purement passive (sans interposition) n'est pas possible en mode utilisateur : elle requiert un driver filtre noyau ou un multiplexeur externe (hub4com).
 
 ## Utilisation — CLI
 
