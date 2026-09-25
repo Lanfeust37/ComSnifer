@@ -5,7 +5,7 @@ using System.Threading.Channels;
 namespace ComSnifer;
 
 /// <summary>Un paquet intercepte a journaliser.</summary>
-internal readonly record struct SniffEvent(DateTimeOffset Time, bool FromDevice, byte[] Data);
+public readonly record struct SniffEvent(DateTimeOffset Time, bool FromDevice, byte[] Data);
 
 /// <summary>
 /// Moteur de forwarding bidirectionnel entre le port cote application
@@ -20,6 +20,10 @@ internal readonly record struct SniffEvent(DateTimeOffset Time, bool FromDevice,
 ///    silencieux sur fd non-bloquant) ;
 ///  - arret propre via CancellationToken au lieu de handlers de signaux ;
 ///  - SerialPort.Open() est exclusif : les lock files UUCP deviennent inutiles.
+///
+/// La sortie console peut etre desactivee (UseConsole = false) : les paquets
+/// et messages d'etat sont alors uniquement exposes via les evenements,
+/// pour un hote graphique (ComSnifer.Gui).
 /// </summary>
 public sealed class SnifferEngine : IAsyncDisposable
 {
@@ -36,14 +40,41 @@ public sealed class SnifferEngine : IAsyncDisposable
 
     public SnifferEngine(SnifferOptions opts) => _opts = opts;
 
+    /// <summary>Leve pour chaque paquet intercepte (depuis la tache de log).</summary>
+    public event EventHandler<SniffEvent>? PacketCaptured;
+
+    /// <summary>Leve pour les messages d'etat (ouverture, connexion...).</summary>
+    public event EventHandler<string>? StatusChanged;
+
+    /// <summary>Leve pour les erreurs (ouverture, lecture...).</summary>
+    public event EventHandler<string>? ErrorOccurred;
+
+    /// <summary>
+    /// Si true (defaut), les messages et le log formate sont aussi ecrits
+    /// sur la console (mode CLI). False pour une GUI.
+    /// </summary>
+    public bool UseConsole { get; set; } = true;
+
     private bool UseColor => _logFile is null && !Console.IsOutputRedirected;
+
+    private void Status(string message)
+    {
+        StatusChanged?.Invoke(this, message);
+        if (UseConsole) Console.WriteLine(message);
+    }
+
+    private void Error(string message)
+    {
+        ErrorOccurred?.Invoke(this, message);
+        if (UseConsole) Console.Error.WriteLine(message);
+    }
 
     public async Task<int> RunAsync(CancellationToken ct)
     {
         try { OpenOutputs(); }
         catch (Exception ex)
         {
-            Console.Error.WriteLine($"Erreur ouverture des fichiers : {ex.Message}");
+            Error($"Erreur ouverture des fichiers : {ex.Message}");
             return 2;
         }
 
@@ -60,13 +91,13 @@ public sealed class SnifferEngine : IAsyncDisposable
         }
         catch (Exception ex)
         {
-            Console.Error.WriteLine($"Erreur ouverture endpoint : {ex.Message}");
-            Console.Error.WriteLine("(un port serie ne peut etre ouvert que par un seul processus a la fois)");
+            Error($"Erreur ouverture endpoint : {ex.Message}");
+            Error("(un port serie ne peut etre ouvert que par un seul processus a la fois)");
             return 2;
         }
 
-        Console.WriteLine($"Device : {_dev.Description}   <--->   App : {_app.Description}");
-        Console.WriteLine($"{_opts.BaudRate} baud, {_opts.DataBits}{_opts.Parity.ToString()[0]}{FormatStopBits()} (ports serie) — Ctrl+C pour arreter.");
+        Status($"Device : {_dev.Description}   <--->   App : {_app.Description}");
+        Status($"{_opts.BaudRate} baud, {_opts.DataBits}{_opts.Parity.ToString()[0]}{FormatStopBits()} (ports serie) — Ctrl+C pour arreter.");
 
         using CancellationTokenSource linked = CancellationTokenSource.CreateLinkedTokenSource(ct, _stop.Token);
         CancellationToken token = linked.Token;
@@ -77,19 +108,19 @@ public sealed class SnifferEngine : IAsyncDisposable
 
         try { await Task.WhenAll(hostToDev, devToHost); }
         catch (OperationCanceledException) { }
-        catch (Exception ex) { Console.Error.WriteLine($"\nErreur : {ex.Message}"); }
+        catch (Exception ex) { Error($"\nErreur : {ex.Message}"); }
 
         _events.Writer.TryComplete();
         try { await logger; } catch (OperationCanceledException) { }
         return 0;
     }
 
-    private static async Task OpenEndpointAsync(IEndpoint ep, CancellationToken ct)
+    private async Task OpenEndpointAsync(IEndpoint ep, CancellationToken ct)
     {
         if (ep.WaitsForPeer)
-            Console.WriteLine($"En attente d'une connexion sur {ep.Description} ...");
+            Status($"En attente d'une connexion sur {ep.Description} ...");
         await ep.OpenAsync(ct);
-        Console.WriteLine($"Ouvert : {ep.Description}");
+        Status($"Ouvert : {ep.Description}");
     }
 
     private string FormatStopBits() => _opts.StopBits switch
@@ -107,17 +138,17 @@ public sealed class SnifferEngine : IAsyncDisposable
             _logFile = new StreamWriter(new FileStream(
                 _opts.LogFile, FileMode.Create, FileAccess.Write, FileShare.Read))
             { AutoFlush = true };
-            Console.WriteLine($"Log vers '{_opts.LogFile}'.");
+            Status($"Log vers '{_opts.LogFile}'.");
         }
         foreach (string path in _opts.InTeeFiles) _inTees.Add(OpenTee(path, "device"));
         foreach (string path in _opts.OutTeeFiles) _outTees.Add(OpenTee(path, "host"));
     }
 
-    private static FileStream OpenTee(string path, string what)
+    private FileStream OpenTee(string path, string what)
     {
         var fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read,
                                 bufferSize: 1, useAsync: true);
-        Console.WriteLine($"Raw data ({what}) -> '{path}'.");
+        Status($"Raw data ({what}) -> '{path}'.");
         return fs;
     }
 
@@ -147,19 +178,25 @@ public sealed class SnifferEngine : IAsyncDisposable
         catch (Exception) when (ct.IsCancellationRequested || _stop.IsCancellationRequested) { }
         catch (Exception ex)
         {
-            Console.Error.WriteLine($"\nErreur de lecture sur {srcName} : {ex.Message}");
+            Error($"\nErreur de lecture sur {srcName} : {ex.Message}");
             _stop.Cancel();
         }
     }
 
-    /// <summary>Consommateur unique du canal : formate et ecrit vers console/fichier.</summary>
+    /// <summary>
+    /// Consommateur unique du canal : notifie les abonnes (GUI) puis formate
+    /// vers le fichier de log ou la console.
+    /// </summary>
     private async Task LoggerAsync()
     {
         var sb = new StringBuilder(512);
-        TextWriter output = _logFile ?? Console.Out;
+        TextWriter? output = _logFile ?? (UseConsole ? Console.Out : null);
 
         await foreach (SniffEvent ev in _events.Reader.ReadAllAsync())
         {
+            PacketCaptured?.Invoke(this, ev);
+            if (output is null) continue;
+
             sb.Clear();
             if (_opts.ShowTimestamp)
             {

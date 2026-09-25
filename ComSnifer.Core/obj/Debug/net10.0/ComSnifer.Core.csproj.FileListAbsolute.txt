@@ -1,0 +1,13 @@
+D:\Données\Visual Studio\DepotGithub\ComSnifer\ComSnifer.Core\obj\Debug\net10.0\ComSnifer.Core.csproj.AssemblyReference.cache
+D:\Données\Visual Studio\DepotGithub\ComSnifer\ComSnifer.Core\obj\Debug\net10.0\ComSnifer.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\Données\Visual Studio\DepotGithub\ComSnifer\ComSnifer.Core\obj\Debug\net10.0\ComSnifer.Core.AssemblyInfoInputs.cache
+D:\Données\Visual Studio\DepotGithub\ComSnifer\ComSnifer.Core\obj\Debug\net10.0\ComSnifer.Core.AssemblyInfo.cs
+D:\Données\Visual Studio\DepotGithub\ComSnifer\ComSnifer.Core\obj\Debug\net10.0\ComSnifer.Core.csproj.CoreCompileInputs.cache
+D:\Données\Visual Studio\DepotGithub\ComSnifer\ComSnifer.Core\obj\Debug\net10.0\ComSnifer.Core.sourcelink.json
+D:\Données\Visual Studio\DepotGithub\ComSnifer\ComSnifer.Core\bin\Debug\net10.0\ComSnifer.Core.deps.json
+D:\Données\Visual Studio\DepotGithub\ComSnifer\ComSnifer.Core\bin\Debug\net10.0\ComSnifer.Core.dll
+D:\Données\Visual Studio\DepotGithub\ComSnifer\ComSnifer.Core\bin\Debug\net10.0\ComSnifer.Core.pdb
+D:\Données\Visual Studio\DepotGithub\ComSnifer\ComSnifer.Core\obj\Debug\net10.0\ComSnifer.Core.dll
+D:\Données\Visual Studio\DepotGithub\ComSnifer\ComSnifer.Core\obj\Debug\net10.0\refint\ComSnifer.Core.dll
+D:\Données\Visual Studio\DepotGithub\ComSnifer\ComSnifer.Core\obj\Debug\net10.0\ComSnifer.Core.pdb
+D:\Données\Visual Studio\DepotGithub\ComSnifer\ComSnifer.Core\obj\Debug\net10.0\ref\ComSnifer.Core.dll

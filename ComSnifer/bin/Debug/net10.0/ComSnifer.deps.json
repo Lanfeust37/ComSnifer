@@ -8,7 +8,7 @@
     ".NETCoreApp,Version=v10.0": {
       "ComSnifer/1.0.0": {
         "dependencies": {
-          "System.IO.Ports": "10.0.12"
+          "ComSnifer.Core": "1.0.0"
         },
         "runtime": {
           "ComSnifer.dll": {}
@@ -202,6 +202,17 @@
             "fileVersion": "10.0.1226.42308"
           }
         }
+      },
+      "ComSnifer.Core/1.0.0": {
+        "dependencies": {
+          "System.IO.Ports": "10.0.12"
+        },
+        "runtime": {
+          "ComSnifer.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -336,6 +347,11 @@
       "sha512": "sha512-qUa36rEId4mz9sf7mICT3kKC0DUetmqaKSmJxPPx2hgT7U8qDTjCSrqmWkCIWpU00f2ltWloYB0iy5BKymIuuQ==",
       "path": "system.io.ports/10.0.12",
       "hashPath": "system.io.ports.10.0.12.nupkg.sha512"
+    },
+    "ComSnifer.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

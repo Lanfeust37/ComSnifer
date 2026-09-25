@@ -1548,17 +1548,17 @@
           "build/net8.0/xunit.runner.visualstudio.props": {}
         }
       },
-      "ComSnifer/1.0.0": {
+      "ComSnifer.Core/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
           "System.IO.Ports": "10.0.12"
         },
         "compile": {
-          "bin/placeholder/ComSnifer.dll": {}
+          "bin/placeholder/ComSnifer.Core.dll": {}
         },
         "runtime": {
-          "bin/placeholder/ComSnifer.dll": {}
+          "bin/placeholder/ComSnifer.Core.dll": {}
         }
       }
     }
@@ -2623,15 +2623,15 @@
         "xunit.runner.visualstudio.nuspec"
       ]
     },
-    "ComSnifer/1.0.0": {
+    "ComSnifer.Core/1.0.0": {
       "type": "project",
-      "path": "../ComSnifer/ComSnifer.csproj",
-      "msbuildProject": "../ComSnifer/ComSnifer.csproj"
+      "path": "../ComSnifer.Core/ComSnifer.Core.csproj",
+      "msbuildProject": "../ComSnifer.Core/ComSnifer.Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
-      "ComSnifer >= 1.0.0",
+      "ComSnifer.Core >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 17.14.1",
       "coverlet.collector >= 6.0.4",
       "xunit >= 2.9.3",
@@ -2672,8 +2672,8 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "D:\\Données\\Visual Studio\\DepotGithub\\ComSnifer\\ComSnifer\\ComSnifer.csproj": {
-              "projectPath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSnifer\\ComSnifer\\ComSnifer.csproj"
+            "D:\\Données\\Visual Studio\\DepotGithub\\ComSnifer\\ComSnifer.Core\\ComSnifer.Core.csproj": {
+              "projectPath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSnifer\\ComSnifer.Core\\ComSnifer.Core.csproj"
             }
           }
         }

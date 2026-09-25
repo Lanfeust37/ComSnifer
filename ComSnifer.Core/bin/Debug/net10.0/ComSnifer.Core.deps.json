@@ -6,12 +6,12 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v10.0": {
-      "ComSnifer/1.0.0": {
+      "ComSnifer.Core/1.0.0": {
         "dependencies": {
           "System.IO.Ports": "10.0.12"
         },
         "runtime": {
-          "ComSnifer.dll": {}
+          "ComSnifer.Core.dll": {}
         }
       },
       "runtime.android-arm.runtime.native.System.IO.Ports/10.0.12": {
@@ -206,7 +206,7 @@
     }
   },
   "libraries": {
-    "ComSnifer/1.0.0": {
+    "ComSnifer.Core/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

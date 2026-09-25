@@ -1,0 +1,38 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ComSnifer GUI",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/ComSnifer.Gui/bin/Debug/net10.0-windows/ComSnifer.Gui.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}/ComSnifer.Gui",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "ComSnifer CLI (--list)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/ComSnifer/bin/Debug/net10.0/ComSnifer.exe",
+            "args": ["--list"],
+            "cwd": "${workspaceFolder}/ComSnifer",
+            "console": "integratedTerminal",
+            "stopAtEntry": false
+        },
+        {
+            "name": "ComSnifer CLI (sniff COM1↔COM11)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/ComSnifer/bin/Debug/net10.0/ComSnifer.exe",
+            "args": ["-d", "COM1", "-a", "COM11", "-s", "115200", "-x", "-t"],
+            "cwd": "${workspaceFolder}/ComSnifer",
+            "console": "integratedTerminal",
+            "stopAtEntry": false
+        }
+    ]
+}

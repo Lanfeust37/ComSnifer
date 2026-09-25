@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ComSnifer\ComSnifer.csproj" />
+    <ProjectReference Include="..\ComSnifer.Core\ComSnifer.Core.csproj" />
   </ItemGroup>
 
 </Project>
