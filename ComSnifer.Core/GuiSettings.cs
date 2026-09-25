@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace ComSnifer.Gui;
+namespace ComSnifer;
 
 /// <summary>
 /// Derniere configuration de la GUI, persistee en JSON

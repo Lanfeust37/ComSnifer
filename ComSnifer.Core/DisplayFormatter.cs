@@ -1,13 +1,13 @@
 using System.Text;
 
-namespace ComSnifer.Gui;
+namespace ComSnifer;
 
 /// <summary>
 /// Format compact pour l'affichage GUI : une ligne par paquet,
 /// octets en hexa ou decimal, colonne ASCII optionnelle.
 ///   12:01:33.412  48 65 6C 6C 6F   | Hello
 /// </summary>
-internal static class DisplayFormatter
+public static class DisplayFormatter
 {
     public static string FormatLine(ReadOnlySpan<byte> data, bool hex, bool ascii,
                                     DateTimeOffset? timestamp)
