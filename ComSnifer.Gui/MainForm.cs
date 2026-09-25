@@ -39,7 +39,12 @@ public partial class MainForm : Form
 
     private async void btnStart_Click(object? sender, EventArgs e) => await StartAsync();
 
-    private void btnStop_Click(object? sender, EventArgs e) => _cts?.Cancel();
+    private void btnStop_Click(object? sender, EventArgs e)
+    {
+        if (_cts is null) return;
+        SetStatus("Arrêt en cours…", isError: false);
+        _cts.Cancel();
+    }
 
     private void btnRefreshPorts_Click(object? sender, EventArgs e) => RefreshPorts();
 
@@ -244,9 +249,13 @@ public partial class MainForm : Form
     private void SetRunning(bool running)
     {
         _running = running;
-        gbConfig.Enabled = !running;
-        flpFiles.Enabled = !running;
+        rowEndpoints.Enabled = !running;
+        foreach (Control c in rowParams.Controls)
+            if (c is not Button)
+                c.Enabled = !running;
+        btnStart.Enabled = !running;
         btnStop.Enabled = running;
+        flpFiles.Enabled = !running;
         lblState.Text = running ? "● Connecté" : "○ Arrêté";
         lblState.ForeColor = running
             ? (IsDarkMode() ? Color.MediumSeaGreen : Color.SeaGreen)

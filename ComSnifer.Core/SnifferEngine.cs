@@ -102,6 +102,13 @@ public sealed class SnifferEngine : IAsyncDisposable
         using CancellationTokenSource linked = CancellationTokenSource.CreateLinkedTokenSource(ct, _stop.Token);
         CancellationToken token = linked.Token;
 
+        // Un ReadAsync/WriteAsync deja en cours n'est pas toujours debloque par
+        // le token seul (SerialPort.BaseStream...) : la fermeture des endpoints
+        // force la sortie des I/O pendantes, a l'arret utilisateur comme en
+        // cas d'erreur interne (_stop).
+        using CancellationTokenRegistration closeOnCancel =
+            token.Register(static s => ((SnifferEngine)s!).CloseEndpoints(), this);
+
         Task hostToDev = ForwardAsync(_app.Stream, _app.Description, _dev.Stream, fromDevice: false, _outTees, token);
         Task devToHost = ForwardAsync(_dev.Stream, _dev.Description, _app.Stream, fromDevice: true, _inTees, token);
         Task logger = LoggerAsync();
@@ -113,6 +120,13 @@ public sealed class SnifferEngine : IAsyncDisposable
         _events.Writer.TryComplete();
         try { await logger; } catch (OperationCanceledException) { }
         return 0;
+    }
+
+    /// <summary>Ferme les endpoints pour debloquer les lectures/ecritures pendantes.</summary>
+    private void CloseEndpoints()
+    {
+        _app?.Dispose();
+        _dev?.Dispose();
     }
 
     private async Task OpenEndpointAsync(IEndpoint ep, CancellationToken ct)
@@ -228,8 +242,7 @@ public sealed class SnifferEngine : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         _stop.Cancel();
-        _app?.Dispose();   // interrompt les ReadAsync pendants
-        _dev?.Dispose();
+        CloseEndpoints();   // interrompt les ReadAsync pendants
         if (_logFile is not null) await _logFile.DisposeAsync();
         foreach (FileStream fs in _inTees) await fs.DisposeAsync();
         foreach (FileStream fs in _outTees) await fs.DisposeAsync();
