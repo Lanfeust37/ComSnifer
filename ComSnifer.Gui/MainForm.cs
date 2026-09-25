@@ -18,6 +18,7 @@ public partial class MainForm : Form
     private SnifferEngine? _engine;
     private CancellationTokenSource? _cts;
     private bool _running;
+    private string? _lastError;
 
     private readonly object _pendingLock = new();
     private readonly StringBuilder _pendingDev = new();
@@ -127,6 +128,7 @@ public partial class MainForm : Form
 
         SaveSettings();
         ResetStats();
+        _lastError = null;
         SetRunning(true);
         SetStatus($"{cmbDevice.Text} ↔ {cmbApp.Text} — démarrage…", isError: false);
         _tickPrev = Environment.TickCount64;
@@ -150,7 +152,10 @@ public partial class MainForm : Form
             {
                 FlushPending();
                 SetRunning(false);
-                SetStatus(rc == 0 ? "Arrêté." : $"Terminé (code {rc}).", isError: rc != 0);
+                string msg = rc == 0 ? "Arrêté."
+                    : _lastError is string err ? $"{err} (code {rc})"
+                    : $"Terminé (code {rc}).";
+                SetStatus(msg, isError: rc != 0);
             }
         }
     }
@@ -265,6 +270,7 @@ public partial class MainForm : Form
     private void SetStatus(string message, bool isError)
     {
         if (InvokeRequired) { BeginInvoke(() => SetStatus(message, isError)); return; }
+        if (isError) _lastError = message;
         lblMsg.Text = message;
         lblMsg.ForeColor = isError
             ? (IsDarkMode() ? Color.Salmon : Color.Firebrick)

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ComSnifer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c8f3d788c4c8e35459c7717b93327950d227d11a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a8dcd624cc1a8b57ff6eb1dbd998c48bc10faa68")]
 [assembly: System.Reflection.AssemblyProductAttribute("ComSnifer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ComSnifer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

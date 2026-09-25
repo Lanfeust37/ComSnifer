@@ -91,8 +91,11 @@ public sealed class SnifferEngine : IAsyncDisposable
         }
         catch (Exception ex)
         {
-            Error($"Erreur ouverture endpoint : {ex.Message}");
-            Error("(un port serie ne peut etre ouvert que par un seul processus a la fois)");
+            string hint = ex is UnauthorizedAccessException
+                          || ex.InnerException is UnauthorizedAccessException
+                ? " (un port serie ne peut etre ouvert que par un seul processus a la fois)"
+                : "";
+            Error($"Erreur ouverture endpoint : {ex.Message}{hint}");
             return 2;
         }
 
@@ -133,7 +136,9 @@ public sealed class SnifferEngine : IAsyncDisposable
     {
         if (ep.WaitsForPeer)
             Status($"En attente d'une connexion sur {ep.Description} ...");
-        await ep.OpenAsync(ct);
+        try { await ep.OpenAsync(ct); }
+        catch (OperationCanceledException) { throw; }
+        catch (Exception ex) { throw new IOException($"{ep.Description} : {ex.Message}", ex); }
         Status($"Ouvert : {ep.Description}");
     }
 
