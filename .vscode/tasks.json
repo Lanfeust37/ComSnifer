@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/ComSnifer.sln",
+                "${workspaceFolder}/ComSniffer.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -23,7 +23,7 @@
             "type": "process",
             "args": [
                 "test",
-                "${workspaceFolder}/ComSnifer.sln"
+                "${workspaceFolder}/ComSniffer.sln"
             ],
             "problemMatcher": "$msCompile",
             "group": {
@@ -38,7 +38,7 @@
             "args": [
                 "run",
                 "--project",
-                "ComSnifer.Gui"
+                "ComSniffer.Gui"
             ],
             "problemMatcher": "$msCompile"
         },
@@ -49,7 +49,7 @@
             "args": [
                 "run",
                 "--project",
-                "ComSnifer",
+                "ComSniffer",
                 "--",
                 "--list"
             ],

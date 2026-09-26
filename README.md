@@ -1,4 +1,4 @@
-# ComSnifer
+# ComSniffer
 
 Sniffer bidirectionnel de lignes série / TCP — port sécurisé de `slsnif 0.4.4` en C#/.NET 10.
 
@@ -8,12 +8,12 @@ Le trafic entre le port de l'application et celui du périphérique réel est re
 
 | Projet | Type | Description |
 |---|---|---|
-| **ComSnifer.Core** | bibliothèque | Moteur `SnifferEngine` (forwarding + événements `PacketCaptured`/`StatusChanged`/`ErrorOccurred`), orchestrateur `SnifferSession` partagé par la GUI et les hôtes (état, compteurs, messages d'erreur), `SnifferOptions`, endpoints série/TCP, formatage, persistance des réglages (`GuiSettings`). |
-| **ComSnifer** | console | Interface en ligne de commande, compatible slsnif. |
-| **ComSnifer.Gui** | WinForms | GUI : deux panneaux temps réel (Device→Host / Host→Device), hex + ASCII, compteurs de débit, log/tee, thème sombre suivi du système. |
-| **ComSnifer.Tests** | xUnit | Tests du parsing, du formatage et du forwarding TCP end-to-end. |
+| **ComSniffer.Core** | bibliothèque | Moteur `SnifferEngine` (forwarding + événements `PacketCaptured`/`StatusChanged`/`ErrorOccurred`), orchestrateur `SnifferSession` partagé par la GUI et les hôtes (état, compteurs, messages d'erreur), `SnifferOptions`, endpoints série/TCP, formatage, persistance des réglages (`GuiSettings`). |
+| **ComSniffer** | console | Interface en ligne de commande, compatible slsnif. |
+| **ComSniffer.Gui** | WinForms | GUI : deux panneaux temps réel (Device→Host / Host→Device), hex + ASCII, compteurs de débit, log/tee, thème sombre suivi du système. |
+| **ComSniffer.Tests** | xUnit | Tests du parsing, du formatage et du forwarding TCP end-to-end. |
 
-`ComSnifer.Core` est aussi référencé par `Plugins.ComSnifer` (dépôt `ToolsBox` voisin) qui expose le sniffer comme module de l'application hôte.
+`ComSniffer.Core` est aussi référencé par `Plugins.ComSniffer` (dépôt `ToolsBox` voisin) qui expose le sniffer comme module de l'application hôte.
 
 ## Endpoints
 
@@ -30,7 +30,7 @@ Le sniffer est un relais (MITM) : il ouvre **les deux** endpoints, qui doivent d
 - une seconde paire com0com côté `device`, avec un terminal série (ou un script) comme faux périphérique :
 
   ```
-  [Application]--COM10 ↔ COM11--[ComSnifer]--COM20 ↔ COM21--[Faux périphérique]
+  [Application]--COM10 ↔ COM11--[ComSniffer]--COM20 ↔ COM21--[Faux périphérique]
                       paire #1                      paire #2
   ```
 
@@ -41,7 +41,7 @@ Une surveillance purement passive (sans interposition) n'est pas possible en mod
 ## Utilisation — CLI
 
 ```bash
-dotnet run --project ComSnifer -- -d COM1 -a COM11 -s 115200 -x -t
+dotnet run --project ComSniffer -- -d COM1 -a COM11 -s 115200 -x -t
 ```
 
 ```
@@ -66,14 +66,14 @@ Fichier de configuration : `%USERPROFILE%\.slsnifrc` (une option par ligne, ex. 
 ## Utilisation — GUI
 
 ```bash
-dotnet run --project ComSnifer.Gui
+dotnet run --project ComSniffer.Gui
 ```
 
-Réglages persistés dans `%AppData%\ComSnifer\settings.json` (partagés avec le plugin ToolsBox).
+Réglages persistés dans `%AppData%\ComSniffer\settings.json` (partagés avec le plugin ToolsBox). À chaque capture, le log formaté et les tee bruts (device→host / host→device) sont écrits automatiquement dans le sous-dossier `Logs\` de l'application, avec un nom horodaté.
 
 ## Build et tests
 
 ```bash
-dotnet build ComSnifer.sln
-dotnet test ComSnifer.sln
+dotnet build ComSniffer.sln
+dotnet test ComSniffer.sln
 ```

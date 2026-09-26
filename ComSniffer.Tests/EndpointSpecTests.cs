@@ -1,4 +1,4 @@
-using ComSnifer;
+using ComSniffer;
 
 public class EndpointSpecTests
 {

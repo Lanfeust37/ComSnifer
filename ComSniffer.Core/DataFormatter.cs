@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace ComSnifer;
+namespace ComSniffer;
 
 /// <summary>
 /// Formatage identique a la version C : "A (065) " en decimal, "A (41) " en hex.

@@ -1,10 +1,10 @@
 using System.Text.Json;
 
-namespace ComSnifer;
+namespace ComSniffer;
 
 /// <summary>
 /// Derniere configuration de la GUI, persistee en JSON
-/// (%APPDATA%\ComSnifer\settings.json) — equivalent du .slsnifrc pour la CLI.
+/// (%APPDATA%\ComSniffer\settings.json) — equivalent du .slsnifrc pour la CLI.
 /// </summary>
 public sealed class GuiSettings
 {
@@ -26,7 +26,7 @@ public sealed class GuiSettings
 
     public static string DefaultPath => Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-        "ComSnifer", "settings.json");
+        "ComSniffer", "settings.json");
 
     public static GuiSettings Load(string path)
     {

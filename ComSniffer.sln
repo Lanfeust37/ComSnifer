@@ -2,13 +2,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComSnifer.Core", "ComSnifer.Core\ComSnifer.Core.csproj", "{A0F322CD-922F-4CD7-9782-49A2CEE6ED53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComSniffer.Core", "ComSniffer.Core\ComSniffer.Core.csproj", "{A0F322CD-922F-4CD7-9782-49A2CEE6ED53}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComSnifer", "ComSnifer\ComSnifer.csproj", "{F753FC98-C538-45EC-BBDD-4A874BC86ED8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComSniffer", "ComSniffer\ComSniffer.csproj", "{F753FC98-C538-45EC-BBDD-4A874BC86ED8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComSnifer.Tests", "ComSnifer.Tests\ComSnifer.Tests.csproj", "{AC579805-F626-4ED4-AD79-E73FE57720EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComSniffer.Tests", "ComSniffer.Tests\ComSniffer.Tests.csproj", "{AC579805-F626-4ED4-AD79-E73FE57720EE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComSnifer.Gui", "ComSnifer.Gui\ComSnifer.Gui.csproj", "{21CA57C6-D6EB-4070-A0C8-CBDE7871DF7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComSniffer.Gui", "ComSniffer.Gui\ComSniffer.Gui.csproj", "{21CA57C6-D6EB-4070-A0C8-CBDE7871DF7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

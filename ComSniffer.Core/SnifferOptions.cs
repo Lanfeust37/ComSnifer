@@ -1,6 +1,6 @@
 using System.IO.Ports;
 
-namespace ComSnifer;
+namespace ComSniffer;
 
 public sealed class OptionException : Exception
 {

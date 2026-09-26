@@ -1548,17 +1548,17 @@
           "build/net8.0/xunit.runner.visualstudio.props": {}
         }
       },
-      "ComSnifer.Core/1.0.0": {
+      "ComSniffer.Core/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
           "System.IO.Ports": "10.0.12"
         },
         "compile": {
-          "bin/placeholder/ComSnifer.Core.dll": {}
+          "bin/placeholder/ComSniffer.Core.dll": {}
         },
         "runtime": {
-          "bin/placeholder/ComSnifer.Core.dll": {}
+          "bin/placeholder/ComSniffer.Core.dll": {}
         }
       }
     }
@@ -2623,15 +2623,15 @@
         "xunit.runner.visualstudio.nuspec"
       ]
     },
-    "ComSnifer.Core/1.0.0": {
+    "ComSniffer.Core/1.0.0": {
       "type": "project",
-      "path": "../ComSnifer.Core/ComSnifer.Core.csproj",
-      "msbuildProject": "../ComSnifer.Core/ComSnifer.Core.csproj"
+      "path": "../ComSniffer.Core/ComSniffer.Core.csproj",
+      "msbuildProject": "../ComSniffer.Core/ComSniffer.Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
-      "ComSnifer.Core >= 1.0.0",
+      "ComSniffer.Core >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 17.14.1",
       "coverlet.collector >= 6.0.4",
       "xunit >= 2.9.3",
@@ -2645,11 +2645,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Données\\Visual Studio\\DepotGithub\\ComSnifer\\ComSnifer.Tests\\ComSnifer.Tests.csproj",
-      "projectName": "ComSnifer.Tests",
-      "projectPath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSnifer\\ComSnifer.Tests\\ComSnifer.Tests.csproj",
+      "projectUniqueName": "D:\\Données\\Visual Studio\\DepotGithub\\ComSniffer\\ComSniffer.Tests\\ComSniffer.Tests.csproj",
+      "projectName": "ComSniffer.Tests",
+      "projectPath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSniffer\\ComSniffer.Tests\\ComSniffer.Tests.csproj",
       "packagesPath": "C:\\Users\\fabri\\.nuget\\packages\\",
-      "outputPath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSnifer\\ComSnifer.Tests\\obj\\",
+      "outputPath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSniffer\\ComSniffer.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -2672,8 +2672,8 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "D:\\Données\\Visual Studio\\DepotGithub\\ComSnifer\\ComSnifer.Core\\ComSnifer.Core.csproj": {
-              "projectPath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSnifer\\ComSnifer.Core\\ComSnifer.Core.csproj"
+            "D:\\Données\\Visual Studio\\DepotGithub\\ComSniffer\\ComSniffer.Core\\ComSniffer.Core.csproj": {
+              "projectPath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSniffer\\ComSniffer.Core\\ComSniffer.Core.csproj"
             }
           }
         }

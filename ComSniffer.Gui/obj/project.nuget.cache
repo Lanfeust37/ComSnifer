@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "miQb5Fb2Fpg=",
+  "dgSpecHash": "8tMfHK80xq0=",
   "success": true,
-  "projectFilePath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSnifer\\ComSnifer.Gui\\ComSnifer.Gui.csproj",
+  "projectFilePath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSniffer\\ComSniffer.Gui\\ComSniffer.Gui.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\fabri\\.nuget\\packages\\runtime.android-arm.runtime.native.system.io.ports\\10.0.12\\runtime.android-arm.runtime.native.system.io.ports.10.0.12.nupkg.sha512",
     "C:\\Users\\fabri\\.nuget\\packages\\runtime.android-arm64.runtime.native.system.io.ports\\10.0.12\\runtime.android-arm64.runtime.native.system.io.ports.10.0.12.nupkg.sha512",

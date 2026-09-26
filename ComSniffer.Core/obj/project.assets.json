@@ -1724,11 +1724,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Données\\Visual Studio\\DepotGithub\\ComSnifer\\ComSnifer.Core\\ComSnifer.Core.csproj",
-      "projectName": "ComSnifer.Core",
-      "projectPath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSnifer\\ComSnifer.Core\\ComSnifer.Core.csproj",
+      "projectUniqueName": "D:\\Données\\Visual Studio\\DepotGithub\\ComSniffer\\ComSniffer.Core\\ComSniffer.Core.csproj",
+      "projectName": "ComSniffer.Core",
+      "projectPath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSniffer\\ComSniffer.Core\\ComSniffer.Core.csproj",
       "packagesPath": "C:\\Users\\fabri\\.nuget\\packages\\",
-      "outputPath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSnifer\\ComSnifer.Core\\obj\\",
+      "outputPath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSniffer\\ComSniffer.Core\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

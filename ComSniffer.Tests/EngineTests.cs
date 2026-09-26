@@ -1,6 +1,6 @@
 using System.Net;
 using System.Net.Sockets;
-using ComSnifer;
+using ComSniffer;
 
 public class EngineTests
 {

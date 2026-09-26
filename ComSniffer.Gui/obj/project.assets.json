@@ -1156,17 +1156,17 @@
           }
         }
       },
-      "ComSnifer.Core/1.0.0": {
+      "ComSniffer.Core/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
           "System.IO.Ports": "10.0.12"
         },
         "compile": {
-          "bin/placeholder/ComSnifer.Core.dll": {}
+          "bin/placeholder/ComSniffer.Core.dll": {}
         },
         "runtime": {
-          "bin/placeholder/ComSnifer.Core.dll": {}
+          "bin/placeholder/ComSniffer.Core.dll": {}
         }
       }
     }
@@ -1724,15 +1724,15 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "ComSnifer.Core/1.0.0": {
+    "ComSniffer.Core/1.0.0": {
       "type": "project",
-      "path": "../ComSnifer.Core/ComSnifer.Core.csproj",
-      "msbuildProject": "../ComSnifer.Core/ComSnifer.Core.csproj"
+      "path": "../ComSniffer.Core/ComSniffer.Core.csproj",
+      "msbuildProject": "../ComSniffer.Core/ComSniffer.Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0-windows": [
-      "ComSnifer.Core >= 1.0.0"
+      "ComSniffer.Core >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -1742,11 +1742,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Données\\Visual Studio\\DepotGithub\\ComSnifer\\ComSnifer.Gui\\ComSnifer.Gui.csproj",
-      "projectName": "ComSnifer.Gui",
-      "projectPath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSnifer\\ComSnifer.Gui\\ComSnifer.Gui.csproj",
+      "projectUniqueName": "D:\\Données\\Visual Studio\\DepotGithub\\ComSniffer\\ComSniffer.Gui\\ComSniffer.Gui.csproj",
+      "projectName": "ComSniffer.Gui",
+      "projectPath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSniffer\\ComSniffer.Gui\\ComSniffer.Gui.csproj",
       "packagesPath": "C:\\Users\\fabri\\.nuget\\packages\\",
-      "outputPath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSnifer\\ComSnifer.Gui\\obj\\",
+      "outputPath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSniffer\\ComSniffer.Gui\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1769,8 +1769,8 @@
           "framework": "net10.0-windows7.0",
           "targetAlias": "net10.0-windows",
           "projectReferences": {
-            "D:\\Données\\Visual Studio\\DepotGithub\\ComSnifer\\ComSnifer.Core\\ComSnifer.Core.csproj": {
-              "projectPath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSnifer\\ComSnifer.Core\\ComSnifer.Core.csproj"
+            "D:\\Données\\Visual Studio\\DepotGithub\\ComSniffer\\ComSniffer.Core\\ComSniffer.Core.csproj": {
+              "projectPath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSniffer\\ComSniffer.Core\\ComSniffer.Core.csproj"
             }
           }
         }

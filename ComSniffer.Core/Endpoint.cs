@@ -2,7 +2,7 @@ using System.IO.Ports;
 using System.Net;
 using System.Net.Sockets;
 
-namespace ComSnifer;
+namespace ComSniffer;
 
 public enum EndpointKind { Serial, TcpConnect, TcpListen }
 

@@ -2,7 +2,7 @@ using System.IO.Ports;
 using System.Text;
 using System.Threading.Channels;
 
-namespace ComSnifer;
+namespace ComSniffer;
 
 /// <summary>Un paquet intercepte a journaliser.</summary>
 public readonly record struct SniffEvent(DateTimeOffset Time, bool FromDevice, byte[] Data);
@@ -23,7 +23,7 @@ public readonly record struct SniffEvent(DateTimeOffset Time, bool FromDevice, b
 ///
 /// La sortie console peut etre desactivee (UseConsole = false) : les paquets
 /// et messages d'etat sont alors uniquement exposes via les evenements,
-/// pour un hote graphique (ComSnifer.Gui).
+/// pour un hote graphique (ComSniffer.Gui).
 /// </summary>
 public sealed class SnifferEngine : IAsyncDisposable
 {

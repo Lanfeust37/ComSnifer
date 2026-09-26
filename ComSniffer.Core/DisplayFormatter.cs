@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace ComSnifer;
+namespace ComSniffer;
 
 /// <summary>
 /// Format compact pour l'affichage GUI : une ligne par paquet,

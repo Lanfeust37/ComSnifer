@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qaKJRCnjJrY=",
+  "dgSpecHash": "EA+dk8N8CcA=",
   "success": true,
-  "projectFilePath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSnifer\\ComSnifer.Tests\\ComSnifer.Tests.csproj",
+  "projectFilePath": "D:\\Données\\Visual Studio\\DepotGithub\\ComSniffer\\ComSniffer.Tests\\ComSniffer.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\fabri\\.nuget\\packages\\coverlet.collector\\6.0.4\\coverlet.collector.6.0.4.nupkg.sha512",
     "C:\\Users\\fabri\\.nuget\\packages\\microsoft.codecoverage\\17.14.1\\microsoft.codecoverage.17.14.1.nupkg.sha512",

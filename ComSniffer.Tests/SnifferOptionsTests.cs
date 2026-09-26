@@ -1,5 +1,5 @@
 using System.IO.Ports;
-using ComSnifer;
+using ComSniffer;
 
 public class SnifferOptionsTests
 {

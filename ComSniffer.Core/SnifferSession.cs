@@ -1,7 +1,7 @@
-namespace ComSnifer;
+namespace ComSniffer;
 
 /// <summary>
-/// Orchestrateur de session de capture, partage entre ComSnifer.Gui et les
+/// Orchestrateur de session de capture, partage entre ComSniffer.Gui et les
 /// hotes (plugin ToolsBox) : encapsule SnifferEngine, le jeton d'annulation,
 /// les compteurs d'octets, le dernier message d'erreur et les messages de
 /// statut normalises (demarrage, arret en cours, arrete / erreur + code).

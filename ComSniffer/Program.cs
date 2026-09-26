@@ -1,12 +1,12 @@
 ﻿using System.IO.Ports;
-using ComSnifer;
+using ComSniffer;
 
 static void Usage()
 {
     Console.WriteLine("""
         Serial Line Sniffer (C#/.NET 10) — version securisee de slsnif 0.4.4
 
-        Usage : ComSnifer --device <port> --appport <port> [options]
+        Usage : ComSniffer --device <port> --appport <port> [options]
 
         ENDPOINTS REQUIS (serie ou TCP) :
           -d, --device  <ep>    peripherique reel :
@@ -48,9 +48,9 @@ static void Usage()
         reglez-le avec -s pour correspondre a l'application.
 
         EXEMPLES :
-          ComSnifer -d COM1 -a COM11 -s 115200 -x -t
-          ComSnifer -d COM1 -a listen:5000 -t        # app -> TCP, device serie
-          ComSnifer -d tcp:192.168.1.20:4001 -a COM5 # device distant (ser2net)
+          ComSniffer -d COM1 -a COM11 -s 115200 -x -t
+          ComSniffer -d COM1 -a listen:5000 -t        # app -> TCP, device serie
+          ComSniffer -d tcp:192.168.1.20:4001 -a COM5 # device distant (ser2net)
         """);
 }
 
