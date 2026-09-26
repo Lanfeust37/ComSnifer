@@ -67,32 +67,29 @@ internal interface IEndpoint : IDisposable
     Task OpenAsync(CancellationToken ct);
 }
 
-internal sealed class SerialEndpoint : IEndpoint
+internal sealed partial class SerialEndpoint(EndpointSpec spec, SnifferOptions opts) : IEndpoint
 {
-    private readonly EndpointSpec _spec;
-    private readonly SnifferOptions _opts;
     private SerialPort? _port;
 
-    public SerialEndpoint(EndpointSpec spec, SnifferOptions opts) { _spec = spec; _opts = opts; }
-    public string Description => _spec.Describe();
+    public string Description => spec.Describe();
     public bool WaitsForPeer => false;
     public Stream Stream => _port?.BaseStream
         ?? throw new InvalidOperationException("Port non ouvert.");
 
     public Task OpenAsync(CancellationToken ct)
     {
-        string name = _spec.Host;
+        string name = spec.Host;
         // la verification prealable n'a de sens que pour les noms COMx simples
-        if (System.Text.RegularExpressions.Regex.IsMatch(name, @"^COM\d+$", System.Text.RegularExpressions.RegexOptions.IgnoreCase)
+        if (MyRegex().IsMatch(name)
             && !SerialPort.GetPortNames().Contains(name, StringComparer.OrdinalIgnoreCase))
         {
             string[] found = SerialPort.GetPortNames();
             throw new IOException($"le port '{name}' n'existe pas. Ports detectes : " +
                                   (found.Length > 0 ? string.Join(", ", found) : "aucun"));
         }
-        _port = new SerialPort(name, _opts.BaudRate, _opts.Parity, _opts.DataBits, _opts.StopBits)
+        _port = new SerialPort(name, opts.BaudRate, opts.Parity, opts.DataBits, opts.StopBits)
         {
-            Handshake = _opts.Handshake,
+            Handshake = opts.Handshake,
             ReadBufferSize = 8192,
             WriteBufferSize = 8192,
         };
@@ -101,15 +98,15 @@ internal sealed class SerialEndpoint : IEndpoint
     }
 
     public void Dispose() => _port?.Dispose();
+    [System.Text.RegularExpressions.GeneratedRegex(@"^COM\d+$", System.Text.RegularExpressions.RegexOptions.IgnoreCase, "fr-FR")]
+    private static partial System.Text.RegularExpressions.Regex MyRegex();
 }
 
-internal sealed class TcpConnectEndpoint : IEndpoint
+internal sealed class TcpConnectEndpoint(EndpointSpec spec) : IEndpoint
 {
-    private readonly EndpointSpec _spec;
     private TcpClient? _client;
 
-    public TcpConnectEndpoint(EndpointSpec spec) => _spec = spec;
-    public string Description => _spec.Describe();
+    public string Description => spec.Describe();
     public bool WaitsForPeer => false;
     public Stream Stream => _client?.GetStream()
         ?? throw new InvalidOperationException("Client non connecte.");
@@ -117,28 +114,26 @@ internal sealed class TcpConnectEndpoint : IEndpoint
     public async Task OpenAsync(CancellationToken ct)
     {
         _client = new TcpClient();
-        await _client.ConnectAsync(_spec.Host, _spec.Port, ct);
+        await _client.ConnectAsync(spec.Host, spec.Port, ct);
     }
 
     public void Dispose() => _client?.Dispose();
 }
 
-internal sealed class TcpListenEndpoint : IEndpoint
+internal sealed class TcpListenEndpoint(EndpointSpec spec) : IEndpoint
 {
-    private readonly EndpointSpec _spec;
     private TcpListener? _listener;
     private TcpClient? _client;
 
-    public TcpListenEndpoint(EndpointSpec spec) => _spec = spec;
-    public string Description => _spec.Describe();
+    public string Description => spec.Describe();
     public bool WaitsForPeer => true;
     public Stream Stream => _client?.GetStream()
         ?? throw new InvalidOperationException("Aucun client connecte.");
 
     public async Task OpenAsync(CancellationToken ct)
     {
-        IPAddress addr = _spec.Host.Length > 0 ? IPAddress.Parse(_spec.Host) : IPAddress.Any;
-        _listener = new TcpListener(addr, _spec.Port);
+        IPAddress addr = spec.Host.Length > 0 ? IPAddress.Parse(spec.Host) : IPAddress.Any;
+        _listener = new TcpListener(addr, spec.Port);
         _listener.Start();
         _client = await _listener.AcceptTcpClientAsync(ct);
         _listener.Stop();   // une seule connexion suffit
